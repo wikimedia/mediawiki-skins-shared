@@ -16,8 +16,10 @@ class ConfigHelper {
 	 *      'exclude' => [
 	 *            'mainpage' => (bool) should it be disabled on the main page?
 	 *            'namespaces' => int[] namespaces it should be excluded on.
-	 *            'querystring' => string regex for patterns the query strings it should be excluded on e.g. 'action=.*' all actions
-	 *            'pagetitles' => string[] of pages it should be excluded on. For special pages, use canonical English name.
+	 *            'querystring' => string regex for patterns the query strings it should be excluded on
+	 *                     e.g. 'action=.*' all actions
+	 *            'pagetitles' => string[] of pages it should be excluded on.
+	 *                     For special pages, use canonical English name.
 	 *      ]
 	 *   ]
 	 * @param WebRequest $request
@@ -25,7 +27,7 @@ class ConfigHelper {
 	 *
 	 * @return bool
 	 */
-	static public function shouldDisable( array $options, WebRequest $request, Title $title = null ) {
+	public static function shouldDisable( array $options, WebRequest $request, Title $title = null ) {
 		$canonicalTitle = $title != null ? $title->getRootTitle() : null;
 
 		$exclusions = $options[ 'exclude' ] ?? [];
