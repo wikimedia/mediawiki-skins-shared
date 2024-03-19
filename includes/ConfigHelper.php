@@ -31,6 +31,7 @@ class ConfigHelper {
 		$canonicalTitle = $title != null ? $title->getRootTitle() : null;
 
 		$exclusions = $options[ 'exclude' ] ?? [];
+		$inclusions = $options['include'] ?? [];
 
 		if ( $title != null && $title->isMainPage() ) {
 			// only one check to make
@@ -40,6 +41,19 @@ class ConfigHelper {
 			[ $canonicalName, $par ] = $spFactory->resolveAlias( $canonicalTitle->getDBKey() );
 			if ( $canonicalName ) {
 				$canonicalTitle = Title::makeTitle( NS_SPECIAL, $canonicalName );
+			}
+		}
+
+		//
+		// Check the inclusions based on the canonical title
+		// The inclusions are checked first as these trump any exclusions.
+		//
+		// Now we have the canonical title and the inclusions link we look for any matches.
+		foreach ( $inclusions as $titleText ) {
+			$includedTitle = Title::newFromText( $titleText );
+
+			if ( $canonicalTitle->equals( $includedTitle ) ) {
+					return false;
 			}
 		}
 
